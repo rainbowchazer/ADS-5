@@ -33,6 +33,11 @@ public:
 	bool isfull() const {
 		return top == size;
 	}
+	T top() {
+        if (isempty())
+            throw std::string("Empty");
+        return arr[top];
+    }
 };
 
 #endif  // INCLUDE_TSTACK_H_
