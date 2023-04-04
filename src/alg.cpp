@@ -3,6 +3,32 @@
 #include <map>
 #include "tstack.h"
 
+int pr(char x) {
+    if (x == '(') return 0;
+    else if (x == ')') return 1;
+    else if (x == '+' || x == '-') return 2;
+    else if (x == '*' || x == '/') return 3;
+    else return -1;
+}
+
+int num(char x) {
+    return (x >= '0' && x <= '9');
+}
+
+int op(char x) {
+    return (x == '(' || x == ')' \
+            || x == '+' || x == '-' \
+            || x == '*' || x == '/');
+}
+
+int conv(char x) {
+    char mas[10] = { 0,1,2,3,4,5,6,7,8,9 };
+    for (int i = 0; i < 10; i++) {
+        if (x == mas[i])
+            return i;
+    }
+}
+
 std::string infx2pstfx(std::string inf) {
     TStack<char>  stack1;
     std::string str = "";
