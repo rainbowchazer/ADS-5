@@ -16,13 +16,12 @@ int num(char x) {
 }
 
 int op(char x) {
-    return (x == '(' || x == ')' \
-            || x == '+' || x == '-' \
+    return (x == '+' || x == '-' \
             || x == '*' || x == '/');
 }
 
 int conv(char x) {
-    char mas[10] = { 0,1,2,3,4,5,6,7,8,9 };
+    char mas[10] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     for (int i = 0; i < 10; i++) {
         if (x == mas[i])
             return i;
@@ -36,33 +35,29 @@ std::string infx2pstfx(std::string inf) {
     for (int i = 0; i < inf.length(); i++) {
         if (num(inf[i])) {
             str += inf[i];
-            str += ' ';
-        }
-        else if (op(inf[i])) {
-            if (inf[i] == '(')
-                stack1.push(inf[i]);
-            else if (inf[i] == ')') {
-                while (stack1.get() != '(') {
-                    str += stack1.get();
-                    str += ' ';
-                    stack1.pop();
-                }
-                stack1.pop();
-            }
-            else if (stack1.isempty())
-                stack1.push(inf[i]);
-            else if (pr(inf[i]) > pr(stack1.get()))
-                stack1.push(inf[i]);
-            else if (pr(inf[i]) <= pr(stack1.get())) {
+            str += " ";
+        } else if (inf[i] == '(') {
+            stack1.push(inf[i]);
+        } else if (inf[i] == ')') {
+            while (!stack1.isempty() && stack1.get() != '(') {
                 str += stack1.get();
-                str += ' ';
+                str += " ";
                 stack1.pop();
             }
+            stack1.pop();
+        } else if (op(inf[i])) {
+            while (!stack1.isempty() && pr(stack1.get()) \
+                   >= pr(inf[i])) {
+                str += stack1.get();
+                str += " ";
+                stack1.pop();
+            }
+            stack1.push(inf[i]);
         }
     }
-    while (stack1.isempty() != 1) {
+    while (!stack1.isempty()) {
         str += stack1.get();
-        str += ' ';
+        str += " ";
         stack1.pop();
     }
     return str;
@@ -70,22 +65,23 @@ std::string infx2pstfx(std::string inf) {
 
 int eval(std::string pref) {
     TStack<int> stack2;
-    for (int i = 0; i < pref.length(); i++) {
-        if (num(pref[i]))
+    for (int i = 0; i < pref.length(); i+=2) {
+        if (num(pref[i])) {
             stack2.push(conv(pref[i]));
-        else if (op(pref[i])) {
-            int a = stack2.get();
-            stack2.pop();
+        } else if (op(pref[i])) {
             int b = stack2.get();
             stack2.pop();
-            if (pref[i] == '+')
+            int a = stack2.get();
+            stack2.pop();
+            if (pref[i] == '+') {
                 stack2.push(a + b);
-            else if (pref[i] == '-')
+            } else if (pref[i] == '-') {
                 stack2.push(a - b);
-            else if (pref[i] == '*')
+            } else if (pref[i] == '*') {
                 stack2.push(a * b);
-            else if (pref[i] == '/')
+            } else if (pref[i] == '/') {
                 stack2.push(a / b);
+            }
         }
     }
     return stack2.get();
