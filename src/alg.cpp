@@ -27,6 +27,7 @@ int conv(char x) {
         if (x == mas[i])
             return i;
     }
+    return -1;
 }
 
 std::string infx2pstfx(std::string inf) {
