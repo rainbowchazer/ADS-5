@@ -8,7 +8,7 @@ int pr(char x) {
     else if (x == ')') return 1;
     else if (x == '+' || x == '-') return 2;
     else if (x == '*' || x == '/') return 3;
-    else 
+    else
         return -1;
 }
 
