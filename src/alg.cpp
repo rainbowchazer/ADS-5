@@ -60,6 +60,7 @@ std::string infx2pstfx(std::string inf) {
         str += " ";
         stack1.pop();
     }
+    str.erase(str.length() - 1, 1);
     return str;
 }
 
