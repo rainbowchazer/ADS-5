@@ -9,11 +9,12 @@ private:
   T arr[size];
   int top;
 public:
-  Tstack() :top(-1) {};
+  Tstack() :top(-1) {}
   void push(T& value) {
-  if (usfull())
-    throw std::string("Full");
-  else arr[++top] = value;
+    if (isfull())
+      throw std::string("Full");
+    else 
+      arr[++top] = value;
   }
   const T& pop() const {
     if (isempty())
@@ -21,11 +22,7 @@ public:
         else return arr[top--];
   }
 	const T& get() const {
-		if (isempty())
-			throw std::string("Empty");
-		else if (usfull())
-			throw std::string("Full");
-		else return arr[top];
+    return arr[top];
 	}
 	bool isempty() const {
 		return top == -1;
@@ -33,11 +30,6 @@ public:
 	bool isfull() const {
 		return top == size;
 	}
-	T top() {
-        if (isempty())
-            throw std::string("Empty");
-        return arr[top];
-    }
 };
 
 #endif  // INCLUDE_TSTACK_H_
